@@ -1,0 +1,624 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	// Placeholders with the same ids are connected.
+
+	
+//"SELECT * FROM ${1:TableName} as ${1/(.{4}).*/$1/}",
+	
+	"Sandbox": {
+        "prefix": "ssx",
+        "body": "SELECT ${2}.${0:column} FROM ${1:TableName} AS ${2:tbl}",
+        "description": "User-defined SELECT "
+        },
+ 
+    "Select FROM with fixed options aliases": {
+        "prefix": "ssfa",
+        "body": "SELECT * FROM ${1:TableName} as ${2|a,b,c,d,e,f|} ",
+        "description": "User-defined SELECT "
+        },
+   
+    "Select FROM": {
+        "prefix": "ssf",
+        "body": "SELECT * FROM ${1:TableName} as ${1/(.{3}).*/${1:/downcase}/}",
+        "description": "User-defined SELECT "
+    },
+   
+    "Select top 100": {
+        "prefix": "stf",
+        "body": "SELECT TOP 100 * FROM ${1:TableName} as tbl",
+        "description": "User-defined SELECT top 100"
+    },
+ 
+    "Select top 100 WITH (NOLOCK)": {
+        "prefix": "stfw",
+        "body": "SELECT TOP 100 * FROM ${1:TableName} as ${0:tbl}  WITH (NOLOCK)",
+        "description": "User-defined SELECT top 100"
+    },
+   
+   
+    "Select COUNT(*) FROM": {
+        "prefix": "scf",
+        "body": "SELECT COUNT(1) FROM ${1:TableName} WITH (NOLOCK)",
+        "description": "User-defined SELECT COUNT(1) FROM"
+    },
+   
+    "Select DISTINCT col1 FROM": {
+        "prefix": "sdf",
+        "body": "SELECT DISTINCT ${1/(.{3}).*/${1:/downcase}/}.$0 FROM ${1:TableName} as ${1/(.{3}).*/${1:/downcase}/} WITH (NOLOCK)",
+        "description": "User-defined SELECT distinct"
+    },
+		
+	"Declare @value int": {
+		"prefix": "deci",
+		"body": "Declare @${1:someInt} int = $0",
+		"description": "User-defined Decimal variable "
+		},
+	
+	"Declare @str varchar(100)": {
+		"prefix": "decv",
+		"body": "Declare @${1:someString} varchar(100) = '$0'",
+		"description": "User-defined varchar variable "
+		},
+
+	
+	"Declare @id UNIQUEIDENTIFIER": {
+		"prefix": "decu",
+		"body": "Declare @${1:someGuid} UNIQUEIDENTIFIER = '$0' -- here's a random Guid: $UUID",
+		"description": "User-defined Guid variable "
+		},	
+
+	"Declare @dateVal DATETIME": {
+		"prefix": "decdt",
+		"body": "Declare @${1:someDate} DateTime = '$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND'",
+		"description": "User-defined datetime variable "
+		},
+	
+	"INNER JOIN": {
+		"prefix": "ij",
+		"body": "INNER JOIN ${1:TableName} as ${1/(.{3}).*/${1:/downcase}/} on ${1/(.{3}).*/${1:/downcase}/}.$0",
+		"description": "inner join"
+		},
+
+	"LEFT JOIN": {
+		"prefix": "lj",
+		"body": "LEFT JOIN ${1:TableName} as ${1/(.{3}).*/${1:/downcase}/} on ${1/(.{3}).*/${1:/downcase}/}.$0",
+		"description": "left join"
+		},
+		
+	"GROUP BY": {
+		"prefix": "gb",
+		"body": "GROUP BY $0",
+		"description": "group by"
+		},
+
+	"SELECT CURRENT DATE": {
+		"prefix": "now",
+		"body": "SELECT '$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND'",
+		"description": "select current date"
+		},	
+		
+		
+	"HAVING COUNT(1) > 1": {
+		"prefix": "hvc",
+		"body": "HAVING COUNT(1) > 1",
+		"description": "HAVING COUNT(1) > 1"
+	},
+	
+		"ORDER BY ASC": {
+		"prefix": "oba",
+		"body": "ORDER BY ${1:ColumnName} Asc",
+		"description": "order by asc"
+	},
+
+	"ORDER BY DESC": {
+		"prefix": "obd",
+		"body": "ORDER BY ${1:ColumnName} Desc",
+		"description": "order by desc"
+	},
+	
+	"INSERT INTO": {
+		"prefix": "ii",
+		"body": "INSERT INTO ${1:TableName}",
+		"description": "INSERT INTO"
+	},
+	
+	"INSERT from SELECT": {
+		"prefix": "insel",
+		"body": [
+			"INSERT INTO target_table ( column_1, column_n )",
+			"SELECT $0, column_N FROM  ${1:TableName};"
+		],
+		"description": "INSERT from SELECT"
+	},
+	
+	"BEGIN..END block": {
+		"prefix": "bend",
+		"body": ["BEGIN",
+		"\t$0",
+		"END"],
+		"description": "BEGIN..END block"
+	},
+	
+	"BEGIN Transaction block": {
+		"prefix": "bt",
+		"body": ["BEGIN TRANSACTION --  commit   rollback",
+		"$0"],
+		"description": "BEGIN Transaction block"
+	},
+	
+	"DELETE FROM fragment":{
+		"prefix": "df",
+		"body": "DELETE FROM ${1:TableName} WHERE $0",
+		"description":"DELETE FROM fragment"
+	},
+	
+	"Create CTE Table snippet":{
+		"prefix": "sqlcte",
+		"body": [
+			"WITH  ${1:cteName} AS",
+			"(",
+			"$0",
+			")",
+			"SELECT ",
+			"FROM ${1:cteName}"
+		],
+		"description": "User-defined CTE snippet"
+	},
+
+	"Create CTE Table snippet type 2":{
+		"prefix": "sqlcte2",
+		"body": [
+			"WITH  ${1:cteName} ($3) AS",
+			"(",
+			"SELECT DISTINCT ${2/(.{3}).*/${1:/downcase}/}.${3:ColumnName} FROM ${2:TableName} as ${2/(.{3}).*/${1:/downcase}/} ",
+			")",
+			"SELECT $3 ",
+			"FROM ${1:cteName} $0"
+		],
+		"description": "User-defined CTE snippet with columns"
+	},
+
+	"INLIST": {
+		"prefix": "inlist",
+		"body": [
+			"Declare @list varchar(255) = 'a;b;c;d;e;f;g;h;i;j';",
+			"WITH  @${1:cteName} (item) AS (",
+			"\tSELECT value FROM string_split(@list,';')",
+			")",
+			"SELECT ",
+			"* FROM ${2:TableName} a ",
+			"WHERE a.fieldName in (SELECT item FROM  @${1:cteName})"
+			],
+		"description": "variable used for SELECT WHERE IN"
+		},
+
+	"TEMP TABLE":{
+        "prefix": "tmptbl",
+        "body":[
+            "CREATE TABLE #TEMPTABLE",
+            " ( ",
+            "   ID INT IDENTITY(1, 1) primary key ,",
+            "   Name1 VARCHAR(100),",
+            "   Name2 VARCHAR(100),",
+            "   Date DATETIME DEFAULT GETDATE()  ",
+            " ) ",
+            "INSERT INTO #TEMPTABLE",
+            "  (Name1, Name2)",
+            "VALUES",
+            "  ('Matt', 'Matthew'),",
+            "  ('Matt', 'Marshal'),",
+            "  ('Matt', 'Mattison')",
+            "",
+            "SELECT * FROM #TEMPTABLE"
+        ],
+        "description": "Create a populated temp table"
+        },
+	
+	"IF THEN ELSE snippet":{
+		"prefix": "ifthen",
+		"body": [
+		"IF $1",
+		"BEGIN",
+		"\t-- Statement block executes when the Boolean expression is TRUE",
+		"END",
+		"ELSE",
+		"BEGIN",
+		"\t-- Statement block executes when the Boolean expression is FALSE",
+		"END"
+		],
+		"description": "User-defined IF..THEN snippet"
+		},
+
+	"CASE WHEN THEN snippet":{
+		"prefix": "casew",
+		"body": [
+		"CASE WHEN $1 = $0 THEN someValue",
+		"--CASE WHEN Col1 = Val1 OR Col3 = Val2 THEN someValue",
+		"--BEGIN",
+		"--\t-- Statement block executes when the Boolean expression is TRUE",
+		"--END",
+		"WHEN Col1 = Val3 THEN someValue",
+		"ELSE Val4",
+		"END as ColumnName"
+		],
+		"description": "User-defined CASE..WHEN snippet"
+		},	
+
+	"WITH (NOLOCK) snippet":{
+		"prefix": "wnl",
+		"body": [
+		" WITH (NOLOCK) "
+		],
+		"description": "add with (nolock)"
+		},
+
+	"NOLOCKsnippet":{
+		"prefix": "nl",
+		"body": [
+		" NOLOCK "
+		],
+		"description": "add NOLOCK"
+		},
+
+	"Search for text": {
+		"prefix": "tsearch",
+		"body": [
+			"-- ## Search current database structure -not rows- for searchString supplied ",
+			"DECLARE @onlyTables BIT = ${1|1,0|} --SET to 0 to include views, stored procs, functions, types in search",
+			"DECLARE @include_TableCREATE BIT = ${2|0,1|} --SET to 1 to see CREATE TABLE statements",
+			"DECLARE @SearchString VARCHAR(100) = '$0'",			
+			"SELECT *",
+			"FROM (",
+			"    SELECT CASE ",
+			"            WHEN O.TYPE = 'TR' THEN 'Trigger'",
+			"            WHEN O.TYPE = 'FN' THEN 'Scalar Function'",
+			"            WHEN O.TYPE = 'IF' THEN 'Table Valued Function'",
+			"            WHEN O.TYPE = 'V'  THEN 'View'",
+			"            WHEN O.TYPE = 'P'  THEN 'Stored Procedure'",
+			"            ELSE NULL",
+			"            END AS [Object Type]",
+			"        , S.NAME + '.' + O.NAME AS [Object Full Name]",
+			"        , O.NAME AS [Object Name]",
+			"        , M.DEFINITION AS [Object Code]",
+			"    FROM SYS.SQL_MODULES AS m",
+			"    INNER JOIN SYS.OBJECTS AS O",
+			"        ON M.OBJECT_ID = O.OBJECT_ID",
+			"    INNER JOIN SYS.SCHEMAS AS S",
+			"        ON O.SCHEMA_ID = S.SCHEMA_ID",
+			"    WHERE @onlyTables = 0 AND ",
+			"        (O.TYPE IN ('TR', 'FN', 'IF', 'V', 'P')",
+			"        AND M.DEFINITION LIKE '%' + @SearchString + '%'",
+			"        OR O.NAME LIKE '%' + @SearchString + '%')",
+			"    ",
+			"    UNION ALL",
+			"    ",
+			"    SELECT 'Table' AS [Object Type]",
+			"        , CONCAT (",
+			"            isc.TABLE_CATALOG , '.' , isc.TABLE_SCHEMA , '.' , isc.TABLE_NAME  ) AS [Object Full Name]",
+			"        ,  isc.COLUMN_NAME  AS [Object Name]",
+			"        , CASE ",
+			"            WHEN @include_TableCREATE = 1",
+			"                THEN + 'CREATE TABLE ' + QuoteName(t.TABLE_SCHEMA) + '.' + QuoteName(so.name) + ' (' + LEFT(o.List, Len(o.List) - 1) + ');  ' + CASE ",
+			"                        WHEN tc.Constraint_Name IS NULL THEN ''",
+			"                        ELSE 'ALTER TABLE ' + QuoteName(t.TABLE_SCHEMA) + '.' + QuoteName(so.name) + ' ADD CONSTRAINT ' + tc.Constraint_Name ",
+			"                        + ' PRIMARY KEY ' + ' (' + LEFT(j.List, Len(j.List) - 1) + ');  '",
+			"                        END",
+			"            ELSE ''",
+			"            END AS [Object Code]",
+			"    FROM sysobjects so",
+			"    CROSS APPLY (",
+			"        SELECT CASE ",
+			"                WHEN @include_TableCREATE = 1",
+			"                    THEN '  [' + column_name + '] ' + data_type + CASE data_type",
+			"                            WHEN 'sql_variant' THEN ''",
+			"                            WHEN 'text' THEN ''",
+			"                            WHEN 'ntext' THEN ''",
+			"                            WHEN 'decimal' THEN '(' + cast(numeric_precision AS VARCHAR) + ', ' + cast(numeric_scale AS VARCHAR) + ')'",
+			"                            ELSE coalesce('(' + CASE ",
+			"                                        WHEN character_maximum_length = - 1 THEN 'MAX'",
+			"                                        ELSE cast(character_maximum_length AS VARCHAR)",
+			"                                        END + ')', '')",
+			"                            END + ' ' + CASE ",
+			"                            WHEN EXISTS (",
+			"                                    SELECT id",
+			"                                    FROM syscolumns",
+			"                                    WHERE object_name(id) = so.name",
+			"                                        AND name = column_name",
+			"                                        AND columnproperty(id, name, 'IsIdentity') = 1",
+			"                                    )",
+			"                                THEN 'IDENTITY(' + cast(ident_seed(so.name) AS VARCHAR) + ',' + cast(ident_incr(so.name) AS VARCHAR) + ')'",
+			"                            ELSE ''",
+			"                            END + ' ' + (",
+			"                            CASE ",
+			"                                WHEN IS_NULLABLE = 'No' THEN 'NOT '",
+			"                                ELSE ''",
+			"                                END",
+			"                            ) + 'NULL ' + CASE ",
+			"                            WHEN information_schema.columns.COLUMN_DEFAULT IS NOT NULL THEN 'DEFAULT ' + information_schema.columns.COLUMN_DEFAULT",
+			"                            ELSE ''",
+			"                            END + ',' -- can't have a field name or we'll end up with XML",
+			"                ELSE NULL",
+			"                END",
+			"        FROM information_schema.columns",
+			"        WHERE table_name = so.name",
+			"        ORDER BY ordinal_position",
+			"        FOR XML PATH('')",
+			"        ) o(list)",
+			"    LEFT JOIN information_schema.table_constraints tc",
+			"        ON @include_TableCREATE = 1",
+			"            AND ( tc.Table_name = so.Name",
+			"                AND tc.Constraint_Type = 'PRIMARY KEY' )",
+			"    LEFT JOIN information_schema.tables t",
+			"        ON t.Table_name = so.Name",
+			"    LEFT JOIN information_schema.columns isc",
+			"        ON isc.TABLE_NAME = t.TABLE_NAME",
+			"    CROSS APPLY (",
+			"        SELECT CASE ",
+			"                WHEN @include_TableCREATE = 1 THEN QuoteName(Column_Name) + ', '",
+			"                ELSE NULL",
+			"                END",
+			"        FROM information_schema.key_column_usage kcu",
+			"        WHERE kcu.Constraint_Name = tc.Constraint_Name",
+			"        ORDER BY ORDINAL_POSITION",
+			"        FOR XML PATH('')",
+			"        ) j(list)",
+			"    WHERE so.xtype = 'U'",
+			"        AND ( isc.COLUMN_NAME LIKE '%' + @SearchString + '%'",
+			"            OR isc.COLUMN_NAME = @SearchString )",
+			"        AND name NOT IN ('dtproperties')",
+			"    ) sr",
+			"ORDER BY sr.[Object Type]",
+			"    , sr.[Object Name]"
+			],
+		"description": "search database objects for text match"
+		},
+	
+	
+	"Table Disk usage report":{
+		"prefix": "tblrpt",
+		"body": 
+		[
+			"SELECT",
+		" s.Name AS SchemaName,",
+		" t.Name AS TableName,",
+		" p.rows AS RowCounts,",
+		" CAST(ROUND((SUM(a.used_pages) / 128.00), 2) AS NUMERIC(36, 2)) AS Used_MB,",
+		" CAST(ROUND((SUM(a.total_pages) - SUM(a.used_pages)) / 128.00, 2) AS NUMERIC(36, 2)) AS Unused_MB,",
+		" CAST(ROUND((SUM(a.total_pages) / 128.00), 2) AS NUMERIC(36, 2)) AS Total_MB",
+		" FROM sys.tables t",
+		" INNER JOIN sys.indexes i ON t.OBJECT_ID = i.object_id",
+		" INNER JOIN sys.partitions p ON i.object_id = p.OBJECT_ID AND i.index_id = p.index_id",
+		" INNER JOIN sys.allocation_units a ON p.partition_id = a.container_id",
+		" INNER JOIN sys.schemas s ON t.schema_id = s.schema_id",
+		" GROUP BY t.Name, s.Name, p.Rows",
+		" ORDER BY Used_MB desc, RowCounts desc"
+			],
+			"description": "Table Disk usage report"
+	},
+
+	
+	"MERGE statement": {
+		"prefix": "mrg",
+		"body": [
+			"MERGE target_schema.target_table AS tgt ",
+			"\tUSING source_schema.staging AS srs ON ( ",
+			"\t\tsrs.id = tgt.id ",
+			"\t)",
+			"\tWHEN MATCHED THEN UPDATE ",
+			"\t\tSET ",
+			"\t\t\ttgt.column_name = srs.column_name",
+			"\tWHEN NOT MATCHED BY TARGET THEN ",
+			"\t\tINSERT ( ",
+			"\t\t\tcolumn_name ",
+			"\t\t)",
+			"\t\tVALUES ( ",
+			"\t\t\tsrs.column_name ",
+			"\t\t)",
+			"\tWHEN NOT MATCHED BY SOURCE THEN ",
+			"\t\tDELETE",
+			";"
+		],
+		"description": "MERGE statement syntax"
+	},
+
+	"DB autogrowth report":{
+		"prefix": "tblgrw",
+		"body":[
+		"SELECT N'Database Name' = DB_NAME(database_id)",
+		", 'FileName' = NAME",
+		", FILE_ID",
+		", 'size' = CONVERT(NVARCHAR(15), CONVERT(BIGINT, size) * 8) + N' KB'",
+		", 'maxsize' = (",
+		"\tCASE max_size",
+		"\t\tWHEN - 1",
+		"\t\t\t\tTHEN N'Unlimited'",
+		"\t\tELSE CONVERT(NVARCHAR(15), CONVERT(BIGINT, max_size) * 8) + N' KB'",
+		"\t\tEND",
+		"\t)",
+		", 'growth' = (",
+		"\tCASE is_percent_growth",
+		"\t\tWHEN 1",
+		"\t\t\t\tTHEN CONVERT(NVARCHAR(15), growth) + N'%'",
+		"\t\tELSE CONVERT(NVARCHAR(15), CONVERT(BIGINT, growth) * 8) + N' KB'",
+		"\t\tEND",
+		"\t)",
+		", 'type_desc' = type_desc",
+		"FROM sys.master_files",
+		"ORDER BY database_id",
+		],
+		"description": "DB autogrowth report"
+	},
+
+	"getSSRSstoredProcs": {
+		"prefix": "getSSRSstoredProcs",
+		"body": [
+		";WITH CatalogWithXml AS (",
+		"    -- XMLifyies Catalog's Content column.",
+		"    /* For report (Type = 2) and shared data source (Type = 5) objects, the image-typed column",
+		"       Content stores the XML RDL defining the object. We convert this column to XML so that SQL's",
+		"       XML type's functions can be used on it. */",
+		"    SELECT *,",
+		"         ContentXml = (CONVERT(XML, CONVERT(VARBINARY(MAX), Content)))",
+		"    FROM Catalog",
+		"),",
+		"",
+		"SharedDataSources AS (",
+		"    -- Details on uses of shared data sources.",
+		"    -- * Unused data sources are ignored.",
+		"    -- * ItemID identifies the catalog entry (e.g. report) using the shared data source. It is not",
+		"    --   the data source's ID!",
+		"    /* Table DataSource contains a row for each data source (embedded or shared) used in each report.",
+		"       Its column Name stores the data source name, as defined in the report. Shared data sources are",
+		"       defined (RDL XML) in the catalog. Inner joining between these two tables limits this CTE's",
+		"       resultset to details on shared data sources because embedded data sources don't have Link-ed",
+		"       rows in the catalog. */",
+		"    SELECT ds.ItemID,",
+		"        SharedDataSourceName = c.Name,",
+		"        LocalDataSourceName = ds.Name,",
+		"        DataProvider = ContentXML.value('(/*:DataSourceDefinition/*:Extension)[1]', 'NVARCHAR(260)'),",
+		"        ConnectionString = ContentXML.value('(/*:DataSourceDefinition/*:ConnectString)[1]', 'NVARCHAR(MAX)')",
+		"    -- Each DataSource row with a Link value represents a use of a shared data source.",
+		"    FROM DataSource ds",
+		"        -- Uses the Link value to look up the catalog entry defining the shared data source.",
+		"        JOIN CatalogWithXml c ON ds.Link = c.ItemID",
+		"),",
+		"",
+		"AllDataSources AS (",
+		"    -- Details on both embedded & shared data sources *used* by reports.",
+		"    /* Embedded data sources are defined in the hosting report's RDL. Shared data sources are",
+		"       referenced (but not defined) in this RDL. We extract the relevant details and then join",
+		"       to the SharedDataSources CTE to assemble a resultset with details on each data source",
+		"       (embedded and shared) used by each report (identified by ItemID). */",
+		"    SELECT r.ItemID,",
+		"        r.LocalDataSourceName, -- embedded data source's name or local name given to shared data source",
+		"        sds.SharedDataSourceName,",
+		"        SharedDataSource = CAST ((CASE WHEN sds.SharedDataSourceName IS NOT NULL THEN 1 ELSE 0 END) AS BIT),",
+		"        DataProvider = ISNULL(r.DataProvider, sds.DataProvider),",
+		"        ConnectionString = ISNULL(r.ConnectionString, sds.ConnectionString)",
+		"    FROM (",
+		"        SELECT c.*,",
+		"                LocalDataSourceName = DataSourceXml.value('@Name', 'NVARCHAR(260)'),",
+		"                DataProvider = DataSourceXml.value('(*:ConnectionProperties/*:DataProvider)[1]', 'NVARCHAR(260)'),",
+		"                ConnectionString = DataSourceXml.value('(*:ConnectionProperties/*:ConnectString)[1]', 'NVARCHAR(MAX)')",
+		"            FROM CatalogWithXml c",
+		"                CROSS APPLY ContentXml.nodes('/*:Report/*:DataSources/*:DataSource') DataSource(DataSourceXml)",
+		"            WHERE c.Type = 2 -- limit to reports only",
+		"        ) r",
+		"        LEFT JOIN SharedDataSources sds ON r.ItemID = sds.ItemID AND r.LocalDataSourceName = sds.LocalDataSourceName",
+		"),",
+		"",
+		"DataSets AS (",
+		"    -- Details on data sets used in reports.",
+		"    /* Outputs one row per data set used in each report. */",
+		"    SELECT ItemID,",
+		"        DataSetName = QueryXml.value('@Name', 'NVARCHAR(256)'),",
+		"        DataSourceName = QueryXml.value('(*:Query/*:DataSourceName)[1]', 'NVARCHAR(260)'),",
+		"        CommandType = QueryXml.value('(*:Query/*:CommandType)[1]', 'NVARCHAR(15)'),",
+		"        CommandText = QueryXml.value('(*:Query/*:CommandText)[1]', 'NVARCHAR(MAX)')",
+		"    FROM CatalogWithXml",
+		"        CROSS APPLY ContentXml.nodes('/*:Report/*:DataSets/*:DataSet') QueryData(QueryXml)",
+		"),",
+		"",
+		"Data AS (",
+		"    SELECT ds.ItemID,",
+		"        Name,",
+		"        Path,  ",
+		"        LocalDataSourceName,",
+		"        DataSetName,",
+		"        CommandType = ISNULL(CommandType, 'Text'),",
+		"        CommandText,",
+		"        SharedDataSource,",
+		"        SharedDataSourceName,",
+		"        DataProvider,",
+		"        ConnectionString",
+		
+		"    FROM DataSets ds",
+		"        JOIN AllDataSources src ON src.ItemID = ds.ItemID AND src.LocalDataSourceName = ds.DataSourceName",
+		"        JOIN Catalog c ON ds.ItemID = c.ItemID",
+		")",
+		"SELECT * FROM Data WHERE Data.DataSetName",
+		],
+		"description": "gets SSRS stored Procs for Datasets"
+		},
+
+			
+	"SHOW SNIPPET VARIABLES": {
+		"prefix": "snippetvars",
+		"body":[ "$TM_SELECTED_TEXT: Selected text or an empty string if nothing selected",
+		"$TM_CURRENT_LINE: Everything in the current line",
+		"$TM_CURRENT_WORD: Contents of the word under the cursor or an empty string",
+		"$TM_LINE_INDEX: Index number of the line starting at 0",
+		"$TM_LINE_NUMBER: Index number of the line starting at 1",
+		"$CLIPBOARD: Contents of the clipboard",
+		"$TM_FILENAME: Filename of the current document",
+		"$TM_FILENAME_BASE: The filename of the current file without the file extension",
+		"$TM_FILEPATH: Full file path of the current file",
+		"$TM_DIRECTORY: Directory name of the current file",
+		"$WORKSPACE_NAME: Name of the opened workspace or folder",
+		"$CURRENT_YEAR: Current year",
+		"$CURRENT_YEAR_SHORT: Current year's last two digits, e.g., 20",
+		"$CURRENT_MONTH: Current month as two digits, e.g., 02",
+		"$CURRENT_MONTH_NAME: Full name of the current month, e.g., December",
+		"$CURRENT_MONTH_NAME_SHORT: Shortened form of the month name",
+		"$CURRENT_DATE: Day of the month",
+		"$CURRENT_DAY_NAME: Weekday name, e.g., Tuesday",
+		"$CURRENT_DAY_NAME_SHORT: Short weekday name, e.g., Tue",
+		"$CURRENT_HOUR: Hour of the current time (24-hour clock)",
+		"$CURRENT_MINUTE: Minute of the current time",
+		"$CURRENT_SECOND: Second of the current time",
+		"$CURRENT_SECONDS_UNIX: Number of seconds since the Unix epoch",
+		"$BLOCK_COMMENT_START: Block comment start in the language of the file",
+		"$BLOCK_COMMENT_END: Block comment end in the language of the file",
+		"$LINE_COMMENT: Line comment in the language of the file",
+		"https://www.andrewvillazon.com/azure-data-studio-user-snippets/"],
+		"description": "SNIPPET Variables"
+		},
+		
+		
+	"SHOW SNIPPETS HELP": {
+            "prefix": "help",
+            "body":["/*Type a snippet shortcut below then [Tab]  ",
+                    "ssf     - User-defined SELECT                   ",
+                    "stf     - User-defined SELECT top 100           ",
+                    "stfw    - User-defined SELECT top 100 WITH (NOLOCK)",
+                    "scf     - User-defined SELECT COUNT(1) FROM     ",
+                    "sdf     - User-defined SELECT distinct          ",
+                    "deci    - User-defined Decimal variable         ",
+                    "decv    - User-defined varchar variable         ",
+                    "decu    - User-defined Guid variable            ",
+                    "decdt   - User-defined datetime variable        ",
+                    "ij      - inner join                            ",
+                    "lj      - left join                             ",
+                    "gb      - group by                              ",
+                    "now     - select current date                   ",
+                    "cnt     - COUNT(1)                              ",
+                    "hvc     - HAVING COUNT(1) > 1                   ",
+                    "oba     - order by asc                         ",
+                    "obd     - order by desc                         ",
+                    "ii      - INSERT INTO                           ",
+                    "insel   - INSERT from SELECT                    ",
+                    "bend    - BEGIN..END block                      ",
+                    "bt      - BEGIN Transaction block               ",
+                    "df      - DELETE FROM fragment                  ",
+                    "sqlcte  - User-defined CTE snippet              ",
+                    "sqlcte2 - User-defined CTE snippet with columns ",
+                    "inlist  - variable used for SELECT WHERE IN     ",
+                    "tmptbl  - populate a temp table                 ",
+                    "ifthen  - User-defined IF..THEN snippet         ",
+                    "casew   - User-defined CASE..WHEN snippet       ",
+                    "wnl     - add with (nolock)                     ",
+                    "nl      - add NOLOCK                            ",
+                    "tsearch - search database objects for text match",
+                    "tblrpt  - Table Disk usage report               ",
+                    "mrg     - MERGE statement syntax                ",
+                    "tblgrw  - DB autogrowth report            */    ",],
+       
+        "description": "Show Help"
+        },
+   
+	
+	}
