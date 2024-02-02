@@ -1,0 +1,2 @@
+# SQLSnippets
+Helpful SQL snippets
